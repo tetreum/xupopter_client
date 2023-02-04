@@ -19,8 +19,12 @@ export const mustBeLogged = async (request : RequestEvent) : Promise<User> => {
     }
 
     try {
-        return await UserModel.getFromToken(token);
-    } catch (e) {}
+        return await UserModel.findByToken(token);
+    } catch (e) {
+        try {
+            return await UserModel.findByAPIKey(token);
+        } catch (e) {}
+    }
 
     throw error(401, {
         message: 'invalid_auth'

@@ -5,7 +5,11 @@ import jwt from 'jsonwebtoken';
 import { db } from '$lib/db';
 
 const handle: Handle = async ({ event, resolve }) => {
-	const authCookie = event.cookies.get('AuthorizationToken');
+	let authCookie;
+	try {
+
+		authCookie = event.cookies.get('AuthorizationToken');
+	} catch (e){}
 
 	if (authCookie) {
 		// Remove Bearer prefix

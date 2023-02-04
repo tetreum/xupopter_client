@@ -1,6 +1,7 @@
 import { JWT_ACCESS_SECRET } from '$env/static/private';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
 import { db } from '$lib/db';
 import type { User } from '@prisma/client';
@@ -9,12 +10,30 @@ export const hasUsers = async () : Promise<boolean> => {
 	return await db.user.count() > 0;
 };
 
-export const getFromToken = async (token: string) : Promise<User> => {
-	const data = jwt.verify(token, JWT_ACCESS_SECRET);
-
+export const findByAPIKey = async (apiKey: string) : Promise<User> => {
 	const user = await db.user.findUnique({
 		where: {
-			email: data.email
+			apiKey: apiKey
+		}
+	});
+
+	if (!user) {
+		throw "User not found";
+	}
+
+	return user;
+}
+
+export const findByToken = async (token: string) : Promise<User> => {
+	const data = jwt.verify(token, JWT_ACCESS_SECRET);
+
+	return await findByEmail(data.email);
+}
+
+export const findByEmail = async (email: string) : Promise<User> => {
+	const user = await db.user.findUnique({
+		where: {
+			email: email
 		}
 	});
 
@@ -43,7 +62,8 @@ export const createUser = async (email: string, password: string) => {
 		const user = await db.user.create({
 			data: {
 				email,
-				password: await bcrypt.hash(password, 10)
+				password: await bcrypt.hash(password, 10),
+				apiKey: crypto.createHash('md5').update(Date.now().toString()).digest('hex').toString()
 			}
 		});
 

@@ -21,8 +21,19 @@ export async function GET(event : RequestEvent) {
  
 /** @type {import('./$types').RequestHandler} */
 export async function POST(event : RequestEvent) {
+
   const user = await Auth.mustBeLogged(event);
-  let data = await event.request.json();
+  let data;
+  try {
+    data = await event.request.json();
+  } catch (e) {
+    return new Response(JSON.stringify({
+        error: 400,
+        result: 'invalid_request',
+    }), {
+      status: 400
+    });
+  }
 
   const recipe = await Recipe.create({
     id: data.uuid,

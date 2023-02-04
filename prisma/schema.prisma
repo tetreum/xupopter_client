@@ -13,6 +13,7 @@ model User {
   updatedAt DateTime @updatedAt
   email     String   @unique
   password  String
+  apiKey     String   @unique
 }
 
 model Recipe {
