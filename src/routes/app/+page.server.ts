@@ -1,6 +1,8 @@
 import type { Actions, PageServerLoad } from './$types';
 import { error, redirect } from '@sveltejs/kit';
 import * as Recipe from '$lib/recipe.model';
+import * as Runner from '$lib/runner.model';
+import { generateTokenFor } from '$lib/user.model';
 
 export const load: PageServerLoad = (event) => {
 	const user = event.locals.user;
@@ -13,7 +15,9 @@ export const load: PageServerLoad = (event) => {
 
 	return {
 		user,
-		recipes: Recipe.findByUser(user.id)
+		recipes: Recipe.findByUser(user.id),
+		runners: Runner.all(),
+		token: generateTokenFor(user)
 	};
 };
 

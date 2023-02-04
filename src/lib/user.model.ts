@@ -27,6 +27,7 @@ export const findByAPIKey = async (apiKey: string) : Promise<User> => {
 export const findByToken = async (token: string) : Promise<User> => {
 	const data = jwt.verify(token, JWT_ACCESS_SECRET);
 
+	// @ts-ignore
 	return await findByEmail(data.email);
 }
 
@@ -69,7 +70,7 @@ export const createUser = async (email: string, password: string) => {
 
 		return { 
 			user, 
-			token: generateTokenFor(user) 
+			token: generateTokenFor(user)
 		};
 	} catch (error) {
 		return {
@@ -78,7 +79,7 @@ export const createUser = async (email: string, password: string) => {
 	}
 };
 
-export const generateTokenFor = (user: User) : string => {
+export const generateTokenFor = (user: User|{ id: string; email: string; }) : string => {
 	return jwt.sign({
 		id: user.id,
 		email: user.email

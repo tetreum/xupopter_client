@@ -1,13 +1,41 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import type { Recipe } from '@prisma/client';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
 	const { user } = data;
 
-	const runRecipe = (recipe) => {
-		
+	const stopRecipe = (recipe : Recipe) => {
+
+	};
+
+	const runRecipe = async (recipe : Recipe) => {
+		if (data.runners.length === 0) {
+			alert("You have no runners set");
+			return;
+		}
+		if (data.runners.length === 1) {
+			recipe.status = "sending";
+
+			const runner = data.runners[0];
+
+			try {
+				await fetch(runner.address, {
+					method: "post",
+					body: JSON.stringify(recipe),
+					headers: {
+						"Authorization": "Bearer " + data.token
+					}
+				});
+			} catch (e) {
+				recipe.status = "error";
+			}
+			
+		} else {
+			alert("ToDo: Runner selector");
+		}
 	};
 </script>
 
@@ -41,7 +69,11 @@
 					{recipe.status}
 				</div>
 				<div class="col-4">
-					<button on:mousedown={e => runRecipe(recipe)} class="btn btn-link"><i class="fa-solid fa-play"></i></button>
+					{#if recipe.status === "idle"}
+						<button on:mousedown={e => runRecipe(recipe)} class="btn btn-link"><i class="fa-solid fa-play"></i></button>
+					{:else}
+						<button on:mousedown={e => stopRecipe(recipe)} class="btn btn-link"><i class="fa-solid fa-stop"></i></button>
+					{/if}
 				</div>
 			</div>
 		{/each}
