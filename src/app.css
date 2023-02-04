@@ -1,0 +1,23 @@
+:root {
+	--bs-body-bg: #181a1b !important;
+	--bs-body-color: #d1cdc7 !important;
+}
+.form-control {
+	color: rgb(209, 205, 199) !important;
+    background-color: rgb(24, 26, 27) !important;
+    border-color: rgb(60, 65, 68) !important;
+}
+#sidebarMenu {
+	background-color: #1b1e1f;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0;
+}
+.sidebar .nav-link {
+    color: rgb(209, 205, 199);
+}
