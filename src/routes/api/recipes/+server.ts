@@ -36,7 +36,7 @@ export async function POST(event : RequestEvent) {
   }
 
   const recipe = await Recipe.create({
-    id: data.uuid,
+    id: data.id,
     status: "idle",
     name: data.name,
     creator: user.id,
@@ -46,3 +46,15 @@ export async function POST(event : RequestEvent) {
   return JsonResponse(recipe);
 }
 
+/** @type {import('./$types').RequestHandler} */
+export async function DELETE(event : RequestEvent) {
+  const user = await Auth.mustBeLogged(event);
+  let data;
+  try {
+    data = await event.request.json();
+  } catch (e) {}
+ 
+  return JsonResponse({
+    list: await Recipe.removeById(data.id)
+  });
+}

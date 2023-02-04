@@ -31,3 +31,11 @@ export const create = async (data : any) : Promise<Recipe> => {
 
     return entry;
 };
+
+export const removeById = async (id : string) : Promise<void> => {
+    await db.recipe.delete({
+        where: {
+            id: id
+        }
+    });
+};
