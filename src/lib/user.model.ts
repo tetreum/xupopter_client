@@ -5,6 +5,10 @@ import jwt from 'jsonwebtoken';
 import { db } from '$lib/db';
 import type { User } from '@prisma/client';
 
+export const hasUsers = async () : Promise<boolean> => {
+	return await db.user.count() > 0;
+};
+
 export const getFromToken = async (token: string) : Promise<User> => {
 	const data = jwt.verify(token, JWT_ACCESS_SECRET);
 
@@ -43,13 +47,25 @@ export const createUser = async (email: string, password: string) => {
 			}
 		});
 
-		return { user };
+		return { 
+			user, 
+			token: generateTokenFor(user) 
+		};
 	} catch (error) {
 		return {
 			error: 'Something went wrong'
 		};
 	}
 };
+
+export const generateTokenFor = (user: User) : string => {
+	return jwt.sign({
+		id: user.id,
+		email: user.email
+	}, JWT_ACCESS_SECRET, {
+		expiresIn: '1d'
+	});
+}
 
 export const loginUser = async (email: string, password: string) => {
 	// Check if user exists
@@ -74,14 +90,7 @@ export const loginUser = async (email: string, password: string) => {
 		};
 	}
 
-	const jwtUser = {
-		id: user.id,
-		email: user.email
+	return { 
+		token: generateTokenFor(user)
 	};
-
-	const token = jwt.sign(jwtUser, JWT_ACCESS_SECRET, {
-		expiresIn: '1d'
-	});
-
-	return { token };
 };

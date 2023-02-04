@@ -9,15 +9,14 @@
 	<title>Login</title>
 </svelte:head>
 
-<div class="container">
+<div class="container mt-5">
 	<div class="row">
-		<div class="col-7 mx-auto">
+		<div class="col-5 mx-auto bg-dark">
 			<div class="text-center">
 				<img src="/logo.png"  alt="logo">
 			
 				<h1>Login</h1>
 			</div>
-			
 			<section>
 				<form method="post" use:enhance>
 					<div class="mb-3">
@@ -41,7 +40,7 @@
 					{/if}
 				</form>
 			
-				<div class="actions">
+				<div class="text-center mb-3 border-top border-primary pt-2">
 					<a href="/signup">Sign Up</a>
 				</div>
 			</section>

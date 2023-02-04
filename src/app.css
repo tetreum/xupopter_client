@@ -1,6 +1,15 @@
 :root {
 	--bs-body-bg: #181a1b !important;
 	--bs-body-color: #d1cdc7 !important;
+	--bs-link-color: #0cbf9f !important;
+    --bs-link-hover-color: #13b598 !important;
+    --bs-primary-rgb: 12,191,159 !important;
+}
+.btn-primary {
+    --bs-btn-bg: #0cbf9f !important;
+    --bs-btn-border-color: #0cbf9f !important;
+    --bs-btn-hover-bg: #13b598 !important;
+    --bs-btn-hover-border-color: #13b598 !important;
 }
 .form-control {
 	color: rgb(209, 205, 199) !important;
