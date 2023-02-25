@@ -9,3 +9,4 @@ node_modules
 !.env.example
 /prisma/dev.db
 /prisma/xupopter.db
+/config
