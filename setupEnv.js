@@ -8,7 +8,6 @@ const createEnv = async (envPath) => {
     const hash = crypto.createHash('md5').update(Date.now().toString()).digest('hex');
 
     let env = [
-        `DATABASE_URL="file:./xupopter.db"`,
         `JWT_ACCESS_SECRET="${hash}"`
     ];
     env = env.join("\n");
@@ -41,7 +40,7 @@ const createDB = async () => {
 export const setupEnv = () => ({
     name: 'setup-env',
     async configureServer(server) {
-        const envPath = "./.env";
+        const envPath = "./config/.env";
         try {
             await fs.promises.access(envPath);
         } catch (e) {
