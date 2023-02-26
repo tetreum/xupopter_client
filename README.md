@@ -1,3 +1,6 @@
+![Preview](https://raw.githubusercontent.com/tetreum/xupopter_client/master/preview.png)
+
+
 # Xupopter Client
 
 Simple interface to manage Xupopter recipes aswell as it's [runners](https://github.com/tetreum/xupopter_runner).
