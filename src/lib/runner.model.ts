@@ -26,3 +26,11 @@ export const create = async (data : any) : Promise<Runner> => {
         data: data
     });
 };
+
+export const removeById = async (id : string) : Promise<void> => {
+    await db.runner.delete({
+        where: {
+            id: id
+        }
+    });
+};
