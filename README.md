@@ -1,6 +1,6 @@
 # Xupopter Client
 
-Simple interface to manage Xupopter recipes aswell as it's runners.
+Simple interface to manage Xupopter recipes aswell as it's [runners](https://github.com/tetreum/xupopter_runner).
 
 ## Usage
 
